@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<job maxFilesPerProcess="1" fileListSyntax="xrootd" >
+
+  <command>
+    starver SL19e
+    cons
+
+    echo ${FILELIST}
+    cp ${FILELIST} in.list
+    echo ${FILEBASENAME}
+    
+	root4star -q -l -b readPicoDst.C\(\"in.list\",\"&RUN;\_$FILEBASENAME\"\) &gt;&amp; ${FILEBASENAME}.log
+	tar -zcvf ${FILEBASENAME}_&RUN;.log.tgz ${FILEBASENAME}.log
+  </command>
+
+  <SandBox installer="ZIP">
+    <Package name="LocalLibraries">
+      <File>file:./readPicoDst.C</File>
+      <File>file:./StRoot</File>
+    </Package>
+  </SandBox>
+  
+  <!--
+  <input URL="catalog:star.bnl.gov?production=P19ie,trgsetupname=production_3p85GeV_fixedTarget_2018,filetype=daq_reco_picoDst,filename~st_physics,storage!=HPSS" nFiles="all"/>
+
+  <input URL="filelist:/star/u/ypwang/disk01/analysisFlow/polarization/FXT3_85_EPD/filelist_full/&RUN;.txt" />
+-->
+  <input URL="filelist:&listOfFiles;" />
+  <stdout discard="true" />
+  <stderr URL="file:./err/$FILEBASENAME.err"/>
+
+  <Generator>
+	  <Location>./report/</Location>
+	  <ScriptLocation>./csh/</ScriptLocation>
+	  <ListLocation>./list/</ListLocation>
+  </Generator>
+
+  <output fromScratch="*.root" toURL="file:/star/u/ypwang/disk01/analysisFlow/polarization/FXT3_85_EPD/polarization_ld/production/&RUN;/" />
+  <output fromScratch="*.log.tgz" toURL="file:/star/u/ypwang/disk01/analysisFlow/polarization/FXT3_85_EPD/polarization_ld/log/" />
+
+</job>
+

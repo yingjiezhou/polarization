@@ -1,0 +1,15 @@
+This codes were designed for Lambda polarization study in 3 GeV Au+Au data, and the major analysis maker locates under StRoot/Shift/
+
+step1: update the storage location to your directory, and you only need to change the line 39 and line 40 in script submitByRun_perFile.xml.
+ 
+step2: compile the package
+starver SL19e
+cons
+                  
+step3: if you want to test the code locally, just run:
+root4star -b -q -l readPicoDst.C
+                           
+step4: submit jobs in batch, and you can set the starting run number and ending run number in the script submitRunByRun.sh, then
+sh submitRunByRun.sh 
+
+NOTE: All the results will be catogried by run under the production directory; You can merge all output files per run by the script haddRunByRun.sh, and then the merged file per run will be saved in directory of production_perRun.
